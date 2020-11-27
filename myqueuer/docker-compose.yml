@@ -1,0 +1,37 @@
+version: "3"
+services:
+  redis:
+    image: "redis:alpine"
+
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"
+
+  myqueuer:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/myqueuer
+    environment:
+      FLASK_ENV: development
+
+  receiver:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - .:/receiver
+    environment:
+      FLASK_ENV: development
+
+  producer:
+    build: .
+    volumes:
+      - .:/producer
+    environment:
+      FLASK_ENV: development   
+   
+
+  
